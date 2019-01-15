@@ -9,7 +9,11 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
+	username := c.GetSession("Username")
+	if username == nil {
+		c.Redirect("/user/login",302)
+		return
+	}
+	c.Data["Username"] = username
 	c.TplName = "index.tpl"
 }

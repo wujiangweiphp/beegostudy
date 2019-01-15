@@ -74,22 +74,38 @@
 </head>
 
 <body>
-  <header>
-    <h1 class="logo">Welcome to Beego</h1>
-    <div class="description">
-      Beego is a simple & powerful Go web framework which is inspired by tornado and sinatra.
-    </div>
-  </header>
-  <footer>
-    <div class="author">
-      Official website:
-      <a href="http://{{.Website}}">{{.Website}}</a> /
-      Contact me:
-      <a class="email" href="mailto:{{.Email}}">{{.Email}}</a>
-    </div>
-  </footer>
-  <div class="backdrop"></div>
+<header>
+  <h1 class="logo">Welcome to Beego</h1>
+  <div class="description">
+    欢迎回来，{{.Username}} <button class="btn btn-default" onclick="logout()">退出</button>
+  </div>
+</header>
+<footer>
+  <div class="author">
+    hello world!
+  </div>
+</footer>
+<div class="backdrop"></div>
 
-  <script src="/static/js/reload.min.js"></script>
+<script src="/static/js/reload.min.js"></script>
+<script type="text/javascript" src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+  //登出功能
+  function logout(){
+    $.ajax({
+      type:'post',
+      url:'/user/logout',
+      data:{},
+      success:function(result){
+        if(result.State > 0){
+          alert(result.Message)
+        }else {
+          alert("退出成功");
+          location.href = "/"
+        }
+      }
+    })
+  }
+</script>
 </body>
 </html>

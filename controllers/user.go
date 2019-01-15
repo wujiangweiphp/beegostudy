@@ -15,13 +15,6 @@ type ResponseJson struct {
 	Data int
 }
 
-func (c *UserController) Get() {
-	user := models.User{}
-	data := user.GerOne(23)
-	c.Data["Website"] = data.Name
-	c.Data["Email"] = data.Password
-	c.TplName = "index.tpl"
-}
 
 func (c *UserController) Register() {
 	c.TplName = "register.tpl"
@@ -48,4 +41,28 @@ func (c *UserController) SaveUser() {
 
 func (c *UserController) Login() {
 	c.TplName = "login.tpl"
+}
+
+func (c *UserController) Sign() {
+	user := models.User{}
+	user.Name = c.Input().Get("name")
+	user.Password = c.Input().Get("password")
+
+	response := ResponseJson{State:0,Message:"ok"}
+	if id,err := user.GerOne(); err != nil || id == 0 {
+		response.State = 500
+		response.Message = err.Error()
+	} else {
+		c.SetSession("Username",user.Name)
+	}
+	c.Data["json"] = response
+	c.ServeJSON()
+}
+
+
+func (c *UserController) Logout() {
+	c.DelSession("Username")
+	response := ResponseJson{State:0,Message:"ok"}
+	c.Data["json"] = response
+	c.ServeJSON()
 }

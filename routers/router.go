@@ -10,7 +10,8 @@ func init() {
 
     beego.Router("/user/register", &controllers.UserController{},"get:Register")
     beego.Router("/user/saveUser", &controllers.UserController{},"post:SaveUser")
-    //beego.Router("/user/register", &controllers.UserController{},"post:SaveUser")
+
     beego.Router("/user/login", &controllers.UserController{},"get:Login")
-    //beego.Router("/user/login", &controllers.UserController{},"post:SignUser")
+    beego.Router("/user/sign", &controllers.UserController{},"post:Sign")
+    beego.Router("/user/logout", &controllers.UserController{},"post:Logout")
 }

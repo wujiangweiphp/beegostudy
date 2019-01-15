@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
@@ -18,25 +19,16 @@ func init() {
 	orm.RegisterModel(new(User))
 }
 
-func (user User) GetList(start, limit int) {
-	//orm.Debug = true
-	o := orm.NewOrm()
-	user.Id = 23
-	err := o.Read(&user)
-	fmt.Println(err)
-	fmt.Println(user)
-}
-
 /**
    查询单个用户信息
  */
-func (user User) GerOne(id int) User {
+func (user User) GerOne() (int,error) {
+	orm.Debug = true
 	o := orm.NewOrm()
-	user.Id = id
-	if err := o.Read(&user); err != nil || user.Name == "" {
-		return User{}
+	if err := o.Read(&user,"name","password"); err != nil || user.Id <= 0 {
+		return 0, errors.New("用户名或密码错误")
 	} else {
-		return user
+		return user.Id,nil
 	}
 }
 
