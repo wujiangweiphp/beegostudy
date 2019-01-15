@@ -12,7 +12,7 @@ type UserController struct {
 type ResponseJson struct {
 	State int
 	Message string
-	Data int
+	Data interface{}
 }
 
 

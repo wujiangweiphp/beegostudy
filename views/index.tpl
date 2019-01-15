@@ -78,6 +78,7 @@
   <h1 class="logo">Welcome to Beego</h1>
   <div class="description">
     欢迎回来，{{.Username}} <button class="btn btn-default" onclick="logout()">退出</button>
+    <button><a href="/msg/">去留言</a></button>
   </div>
 </header>
 <footer>
