@@ -21,9 +21,6 @@
         <button class="btn btn-primary" onclick="login()">登陆</button>
         <button class="btn btn-primary" onclick="register()">注册</button>
     </div>
-    <div>
-        <label id="status"></label>
-    </div>
 </div>
 <!--JS部分-->
 <script type="text/javascript">
