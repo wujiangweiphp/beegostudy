@@ -26,11 +26,16 @@ func (c *UserController) SaveUser() {
 	user.Password = c.Input().Get("password")
 
 	response := ResponseJson{State:0,Message:"ok"}
-	if id, err := user.SaveOne(); err != nil {
+	if user.Name == "" || user.Password == ""{
 		response.State = 500
-		response.Message = "保存失败，请稍后再试"
-	} else {
-		response.Data = id
+		response.Message = "用户名或密码不能为空"
+	}else {
+		if id, err := user.SaveOne(); err != nil {
+			response.State = 500
+			response.Message = "保存失败，请稍后再试"
+		} else {
+			response.Data = id
+		}
 	}
 	c.Data["json"] = response
 	c.ServeJSON()
@@ -49,11 +54,16 @@ func (c *UserController) Sign() {
 	user.Password = c.Input().Get("password")
 
 	response := ResponseJson{State:0,Message:"ok"}
-	if id,err := user.GerOne(); err != nil || id == 0 {
+	if user.Name == "" || user.Password == ""{
 		response.State = 500
-		response.Message = err.Error()
-	} else {
-		c.SetSession("Username",user.Name)
+		response.Message = "用户名或密码不能为空"
+	}else {
+		if id,err := user.GerOne(); err != nil || id == 0 {
+			response.State = 500
+			response.Message = err.Error()
+		} else {
+			c.SetSession("Username",user.Name)
+		}
 	}
 	c.Data["json"] = response
 	c.ServeJSON()

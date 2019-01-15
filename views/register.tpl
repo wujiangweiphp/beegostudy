@@ -45,6 +45,11 @@
             }
         })
     }
+
+    //登陆功能
+    function login() {
+        location.href = "/user/login"
+    }
 </script>
 </body>
 </html>
