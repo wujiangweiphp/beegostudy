@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"log"
 )
 
 type User struct {
@@ -49,4 +50,19 @@ func (user User) SaveOne() (int, error) {
 		}
 	}
 	return 0 , fmt.Errorf("save fail")
+}
+
+/**
+  根据用户名查询用户id
+ */
+func (user *User)GetUserId() error {
+	o := orm.NewOrm()
+	if user.Name == "" {
+		return errors.New("用户未登录，请先登录")
+	}
+	if err := o.Read(user, "name"); err != nil {
+		log.Printf("read user %v error,error info is %v \n", user, err)
+		return errors.New("用户不存在")
+	}
+	return nil
 }

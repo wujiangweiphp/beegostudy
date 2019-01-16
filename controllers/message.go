@@ -35,6 +35,7 @@ func (c *MessageController) Index()  {
 func (c *MessageController)AddMsg()  {
 	username := c.GetSession("Username")
 	content := c.Input().Get("content")
+	id, _ := c.GetInt("id",0)
 	response := ResponseJson{}
 	response.Message = "ok"
 	response.State = 0
@@ -43,15 +44,18 @@ func (c *MessageController)AddMsg()  {
 		response.State = 500
 		c.Data["json"] = response
 		c.ServeJSON()
+		return
 	}
 	if username == "" || username == nil {
 		response.Message = "当前用户尚未登录，请先登录"
 		response.State = 501
 		c.Data["json"] = response
 		c.ServeJSON()
+		return
 	}
 	msg := models.LeaveMessage{}
 	msg.Content = content
+	msg.Id = id
 	if id,err :=  msg.SaveMessage(username.(string)); err != nil {
 		response.Message = "保存失败，请稍后再试"
 		response.State = 503
@@ -60,4 +64,29 @@ func (c *MessageController)AddMsg()  {
 	}
 	c.Data["json"] = response
 	c.ServeJSON()
+	return
+}
+
+func (c *MessageController)DelMsg() {
+	username := c.GetSession("Username")
+	id, _ := c.GetInt("id",0);
+	response := ResponseJson{}
+	response.Message = "ok"
+	response.State = 0
+	msg := models.LeaveMessage{}
+	msg.Id = id
+	if username == "" || username == nil {
+		response.Message = "当前用户尚未登录，请先登录"
+		response.State = 501
+		c.Data["json"] = response
+		c.ServeJSON()
+		return
+	}
+	if err :=  msg.DelMsg(username.(string)); err != nil {
+		response.Message = "删除失败，请稍后再试"
+		response.State = 503
+	}
+	c.Data["json"] = response
+	c.ServeJSON()
+	return
 }

@@ -18,4 +18,5 @@ func init() {
     beego.Router("/msg/", &controllers.MessageController{},"get:Index")
     beego.Router("/msg/list", &controllers.MessageController{},"get:List")
     beego.Router("/msg/addmsg", &controllers.MessageController{},"post:AddMsg")
+    beego.Router("/msg/delmsg", &controllers.MessageController{},"post:DelMsg")
 }
